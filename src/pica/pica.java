@@ -4,16 +4,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class pica {
-	 static String filePath = "inf.txt";
+	static String filePath = "inf.txt";
 	static int izveletaisIndekss;
-	 static boolean EXIT=false;
+	static boolean EXIT=false;
+	static DecimalFormat df = new DecimalFormat(".##");
 
 	static ArrayList<Sutijums> klienti = new ArrayList<>();
 	static String vards, adrese, num;
@@ -25,6 +28,8 @@ public class pica {
 	static String pazinojums;
 	static double cena=0;
 	static int piegade, lidz;
+	static double picCena, dzerCena, mercCena, piedCena, piegCena;
+
 	 
 	
 	public static void main(String[] args) {
@@ -56,19 +61,24 @@ public class pica {
 	}
 	private static void saglabat() {
 		piegade = JOptionPane.showConfirmDialog(null, "Būs piegāde?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
-		lidz = JOptionPane.showConfirmDialog(null, "Līdzņemšana?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
 
 		String[] veidi= {"Studentu", "Margarita","Havaju", "Kalifornijas"};
 		String[] izmers = {"25cm", "30cm", "50cm"};
 		String[] dzerieni = {"Coca-Cola", "Fanta", "Sprite",
-				"Ābolu sula", "Tomātu sula", "Vīnogu sula"};
+				"Ābolu sula", "Tomātu sula", "Vīnogu sula",
+				"Melnā kafija", "Latte"};
 		String[] piedevas = {"Frī kartupeļi", "Sīpolu gredzeni", "Ķiploku maizītes"};
 		String[] merces = {"Ketčups", "Majonēze", "BBQ", "Gurķu"};
 		
 		String[] pasut = new String[20];
-		int sutSk = 0;
-		
-		
+		cena = 0;
+		picCena = 0;
+		dzerCena = 0;
+		mercCena = 0;
+		piedCena = 0;
+		piegCena = 0;	
+		int sutSk = 0;	
+		klienti.clear();
 		
 		int picSk = Integer.parseInt(JOptionPane.showInputDialog
 				(null,"Cik picas?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
@@ -76,7 +86,15 @@ public class pica {
 			if(picSk>0) {
 				veids = (String)JOptionPane.showInputDialog(null, "Picca:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, veidi, veidi[0]);
 				izm = (String)JOptionPane.showInputDialog(null, "Izmers:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, izmers, izmers[0]);
-               
+				if(izm==izmers[0]) {
+					picCena+=1.99+5.99;
+				}
+				if(izm==izmers[1]) {
+					picCena+=2.99+5.99;
+				}
+				if(izm==izmers[2]) {
+					picCena+=4.99+5.99;
+				}             
 				pasut[sutSk] = veids +" "+izm;
 				sutSk++;
 				picSk--;
@@ -88,6 +106,13 @@ public class pica {
 		while(dzSk!=0) {
 			if(dzSk>0) {
 				dzeriens = (String)JOptionPane.showInputDialog(null, "Dzeriens:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, dzerieni, dzerieni[0]);              
+				if(dzeriens==dzerieni[0] ||dzeriens==dzerieni[1] ||dzeriens==dzerieni[2] ) {
+					dzerCena+=1.5;
+				}else if(dzeriens==dzerieni[3] ||dzeriens==dzerieni[4] ||dzeriens==dzerieni[5] ) {
+					dzerCena+=1.2;
+				}else if(dzeriens==dzerieni[6] ||dzeriens==dzerieni[7] ) {
+					dzerCena+=2;
+				}
 				pasut[sutSk] = dzeriens;
 				sutSk++;
 				dzSk--;
@@ -98,6 +123,7 @@ public class pica {
 		while(mercSk!=0) {
 			if(mercSk>0) {
 				merce = (String)JOptionPane.showInputDialog(null, "Merces:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, merces, merces[0]);              
+				mercCena+=0.8;
 				pasut[sutSk] = merce;
 				sutSk++;
 				mercSk--;
@@ -108,12 +134,20 @@ public class pica {
 		while(piedSk!=0) {
 			if(piedSk>0) {
 				piedeva = (String)JOptionPane.showInputDialog(null, "Piedevas:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, piedevas, piedevas[0]);              
+				if(piedeva==piedevas[0]) {
+	            	   piedCena+=1.5;
+	                  }else if(piedeva==piedevas[1]) {
+	            	   piedCena=2.5;
+	               }if(piedeva==piedevas[2]) {
+	            	   piedCena+=4;
+	               }	
 				pasut[sutSk] = piedeva;
 				sutSk++;
 				piedSk--;
 			}
 		}
 		if(piegade == JOptionPane.YES_OPTION) {
+			piegCena+=1;
 			do {
 			adrese = JOptionPane.showInputDialog(null, "Adrese:");
 			}while(adrese.length()<3);
@@ -124,8 +158,10 @@ public class pica {
 			num = JOptionPane.showInputDialog(null, "Tālr.:");
 			}while(num.length()!=8);
 
-		}
+		}else
 		if(piegade == JOptionPane.NO_OPTION) {
+			lidz = JOptionPane.showConfirmDialog(null, "Līdzņemšana?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
+
 			if(lidz == JOptionPane.YES_OPTION) {
 			vards = JOptionPane.showInputDialog(null, "Vards:");
 			}else if(lidz == JOptionPane.NO_OPTION) {
@@ -133,37 +169,40 @@ public class pica {
 			}
 		}
 		
+		cena = picCena+dzerCena+mercCena+piedCena+piegCena;
+		for(int i=0; i<klienti.size(); i++) {
+	    cena = klienti.get(i).cena;
+	    pazinojums +=klienti.get(i);
+		}
+		Sutijums SUT = new Sutijums(vards,adrese, num, veids, izm, dzeriens, piedeva, merce, cena, piegade, lidz);
+        klienti.add(SUT);
 		pazinojums = "\nKlients / galds: "+getVards()+"\nAdrese: "+getAdrese()+"\nNumurs:" +getNumurs();
 		for(int i=0; i<sutSk; i++) {
 			pazinojums += (i+1)+". "+pasut[i]+"\n";
 		}
-		JOptionPane.showMessageDialog(null, pazinojums+"\n");
-		Sutijums SUT = new Sutijums(vards,adrese, num, veids, izm, dzeriens, piedeva, merce, cena, piegade, lidz);
-        klienti.add(SUT);
+		JOptionPane.showMessageDialog(null, pazinojums+" = "+df.format(SUT.cena)+"eiro"+"\n", "Pizza_YUMMY", JOptionPane.INFORMATION_MESSAGE);
+		
         try {
             FileWriter writer = new FileWriter(filePath, true);
-            writer.write(pazinojums +"\n____________\n");
+            writer.write(pazinojums +df.format(SUT.cena)+"\n____________\n");
             writer.close();
             JOptionPane.showMessageDialog(null, "Ir saglabats.");
-           metodes();
-    
+            klienti.clear();   
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Kļūda");
             e.printStackTrace();
-            metodes();           
         }	          
-        metodes();      
     }	
-   private static void izvadit() {
+   public static void izvadit() {
 	   JTextArea text = new JTextArea();
  	  JScrollPane scroll = new JScrollPane(text);
  	  scroll.setPreferredSize(new Dimension(500,400));
 
      String data = "  ";
      if(klienti.size()<1) {
-    	 JOptionPane.showMessageDialog(null, "Nav neviena pasūtījuma","Kļūda", JOptionPane.WARNING_MESSAGE);
+     	JOptionPane.showMessageDialog(null, "Nav neviena pasūtījuma","Kļūda", JOptionPane.WARNING_MESSAGE);
      	metodes();
-     }
+     }else if(klienti.size()>0) {
      try {
          BufferedReader reader = new BufferedReader(new FileReader(filePath));
          String line = reader.readLine();
@@ -177,9 +216,8 @@ public class pica {
      } catch (IOException e) {
          JOptionPane.showMessageDialog(null, "Kļūda: " + e.getMessage());
      }
-    
-     metodes();
-         }
+     }
+             }
    
 	 
    private static void aizvert() {
