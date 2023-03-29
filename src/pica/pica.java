@@ -1,11 +1,14 @@
 package pica;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
 public class pica {
+	 static String filePath = "inf.txt";
 	static int izveletaisIndekss;
 	static ArrayList<Sutijums> klienti = new ArrayList<>();
 	static String vards, adrese, num;
@@ -84,7 +87,7 @@ public class pica {
 			}
 		}
 		int mercSk = Integer.parseInt(JOptionPane.showInputDialog
-				(null,"Cik dzērienu?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
+				(null,"Cik mērces?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
 		while(mercSk!=0) {
 			if(mercSk>0) {
 				merce = (String)JOptionPane.showInputDialog(null, "Merces:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, merces, merces[0]);              
@@ -94,7 +97,7 @@ public class pica {
 			}
 		}
 		int piedSk = Integer.parseInt(JOptionPane.showInputDialog
-				(null,"Cik dzērienu?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
+				(null,"Cik piedevas?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
 		while(piedSk!=0) {
 			if(piedSk>0) {
 				piedeva = (String)JOptionPane.showInputDialog(null, "Piedevas:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, piedevas, piedevas[0]);              
@@ -125,16 +128,32 @@ public class pica {
 		
 		pazinojums = "\nKlients / galds: "+getVards()+"\nAdrese: "+getAdrese()+"\nNumurs:" +getNumurs();
 		for(int i=0; i<sutSk; i++) {
-			pazinojums +="\n"+ (i+1)+". "+pasut[i]+"\n";
+			pazinojums += (i+1)+". "+pasut[i]+"\n";
 		}
 		JOptionPane.showMessageDialog(null, pazinojums+"\n");
 		Sutijums SUT = new Sutijums(vards,adrese, num, veids, izm, dzeriens, piedeva, merce, cena, piegade, lidz);
         klienti.add(SUT);
+        try {
+            FileWriter writer = new FileWriter(filePath, true);
+            writer.write(pazinojums +"\n____________\n");
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Ir saglabats.");
+        //   metodes();
+    
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Kļūda");
+            e.printStackTrace();
+        //    metodes();           
+        }	          
+        //metodes();      
+    }
+ 	
 		
-	}
+	
    private static void izvadit() {
-		
-	}
+	   
+   }
+	 
    private static void aizvert() {
 	
 }
