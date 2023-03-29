@@ -15,7 +15,7 @@ public class pica {
 	static String piedeva="";
 	static String merce="";
 	double cena=0;
-	static int piegade;
+	static int piegade, lidz;
 	 
 	
 	public static void main(String[] args) {
@@ -45,6 +45,8 @@ public class pica {
 	}
 	private static void saglabat() {
 		piegade = JOptionPane.showConfirmDialog(null, "Būs piegāde?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
+		lidz = JOptionPane.showConfirmDialog(null, "Līdzņemšana?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
+
 		String[] veidi= {"Studentu", "Margarita","Havaju", "Kalifornijas"};
 		String[] izmers = {"25cm", "30cm", "50cm"};
 		String[] dzerieni = {"Coca-Cola", "Fanta", "Sprite",
@@ -112,8 +114,12 @@ public class pica {
 			}while(num.length()!=8);
 
 		}
-		if(piegade == JOptionPane.YES_OPTION) {
-			vards = JOptionPane.showInputDialog(null, "Galds:");
+		if(piegade == JOptionPane.NO_OPTION) {
+			if(lidz == JOptionPane.YES_OPTION) {
+			vards = JOptionPane.showInputDialog(null, "Vards:");
+			}else if(lidz == JOptionPane.NO_OPTION) {
+				vards = JOptionPane.showInputDialog(null, "Galds:");
+			}
 		}
 		
 		
