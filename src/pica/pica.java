@@ -1,11 +1,16 @@
 package pica;
 
+import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class pica {
 	 static String filePath = "inf.txt";
@@ -151,8 +156,32 @@ public class pica {
 		
 	
    private static void izvadit() {
-	   
-   }
+	   JTextArea text = new JTextArea();
+ 	  JScrollPane scroll = new JScrollPane(text);
+ 	  scroll.setPreferredSize(new Dimension(500,400));
+
+     String data = "  ";
+     if(klienti.size()<1) {
+    	 JOptionPane.showMessageDialog(null, "Nav neviena pasūtījuma","Kļūda", JOptionPane.WARNING_MESSAGE);
+     	metodes();
+     }
+     try {
+         BufferedReader reader = new BufferedReader(new FileReader(filePath));
+         String line = reader.readLine();
+         while (line != null) {
+             data += line + "\n";
+             line = reader.readLine();
+         }
+         text.append(data);
+         JOptionPane.showMessageDialog(null, scroll);
+         reader.close();
+     } catch (IOException e) {
+         JOptionPane.showMessageDialog(null, "Kļūda: " + e.getMessage());
+     }
+    
+     metodes();
+         }
+   
 	 
    private static void aizvert() {
 	int rez = JOptionPane.showConfirmDialog(null, "Beigt darbu?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
