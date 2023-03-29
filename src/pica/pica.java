@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class pica {
 	static int izveletaisIndekss;
 	static ArrayList<Sutijums> klienti = new ArrayList<Sutijums>();
-	static String vards, adrese, num, gNum;
+	static String vards, adrese, num;
 	static String veids="";
 	static String izm="";
 	static String dzeriens="";
@@ -101,11 +101,19 @@ public class pica {
 			}
 		}
 		if(piegade == JOptionPane.YES_OPTION) {
-			adrese = JOptionPane.showInputDialog(null, "Adrese:", "Pizza_YUMMY");
-			vards = JOptionPane.showInputDialog(null, "Vards:", "Pizza_YUMMY");
-			num = JOptionPane.showInputDialog(null, "Tālr.:", "Pizza_YUMMY");
+			do {
+			adrese = JOptionPane.showInputDialog(null, "Adrese:");
+			}while(adrese.length()<3);
+			do {
+			vards = JOptionPane.showInputDialog(null, "Vards:");
+		   }while(adrese.length()<3);
+			do {
+			num = JOptionPane.showInputDialog(null, "Tālr.:");
+			}while(num.length()!=8);
 
-
+		}
+		if(piegade == JOptionPane.YES_OPTION) {
+			vards = JOptionPane.showInputDialog(null, "Galds:");
 		}
 		
 		
