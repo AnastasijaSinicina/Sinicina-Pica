@@ -7,14 +7,15 @@ import javax.swing.JOptionPane;
 
 public class pica {
 	static int izveletaisIndekss;
-	static ArrayList<Sutijums> klienti = new ArrayList<Sutijums>();
+	static ArrayList<Sutijums> klienti = new ArrayList<>();
 	static String vards, adrese, num;
 	static String veids="";
 	static String izm="";
 	static String dzeriens="";
 	static String piedeva="";
 	static String merce="";
-	double cena=0;
+	static String pazinojums;
+	static double cena=0;
 	static int piegade, lidz;
 	 
 	
@@ -86,8 +87,8 @@ public class pica {
 				(null,"Cik dzērienu?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
 		while(mercSk!=0) {
 			if(mercSk>0) {
-				merce = (String)JOptionPane.showInputDialog(null, "Dzeriens:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, merces, merces[0]);              
-				pasut[sutSk] = dzeriens;
+				merce = (String)JOptionPane.showInputDialog(null, "Merces:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, merces, merces[0]);              
+				pasut[sutSk] = merce;
 				sutSk++;
 				mercSk--;
 			}
@@ -96,8 +97,8 @@ public class pica {
 				(null,"Cik dzērienu?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
 		while(piedSk!=0) {
 			if(piedSk>0) {
-				piedeva = (String)JOptionPane.showInputDialog(null, "Dzeriens:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, piedevas, piedevas[0]);              
-				pasut[sutSk] = dzeriens;
+				piedeva = (String)JOptionPane.showInputDialog(null, "Piedevas:", "Pizza_YUMMY", JOptionPane.PLAIN_MESSAGE, null, piedevas, piedevas[0]);              
+				pasut[sutSk] = piedeva;
 				sutSk++;
 				piedSk--;
 			}
@@ -122,8 +123,13 @@ public class pica {
 			}
 		}
 		
-		
-		
+		pazinojums = "\nKlients / galds: "+getVards()+"\nAdrese: "+getAdrese()+"\nNumurs:" +getNumurs();
+		for(int i=0; i<sutSk; i++) {
+			pazinojums +="\n"+ (i+1)+". "+pasut[i]+"\n";
+		}
+		JOptionPane.showMessageDialog(null, pazinojums+"\n");
+		Sutijums SUT = new Sutijums(vards,adrese, num, veids, izm, dzeriens, piedeva, merce, cena, piegade, lidz);
+        klienti.add(SUT);
 		
 	}
    private static void izvadit() {
@@ -132,5 +138,29 @@ public class pica {
    private static void aizvert() {
 	
 }
+   public static String getVards() {
+       return vards + " " ;
+   }
+   public static String getAdrese() {
+		return adrese;
+	}
+	public static String getNumurs() {
+		return num;
+	}
+	public static String getVeids() {
+		return veids;
+	}
+	public static String getIzm() {
+		return izm;
+	}
+	public static String getDz() {
+		return dzeriens;
+	}
+	public static String getMerce() {
+		return merce;
+	}
+	public static String getPied() {
+		return piedeva;
+	}	   
 
 }

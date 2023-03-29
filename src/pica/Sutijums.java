@@ -13,6 +13,7 @@ public class Sutijums extends pica{
 		this.vards = vards;
 		this.adrese = adrese;
 		this.num = num;
+		this.veids = veids;
 		this.izm = izm;
 		this.dzeriens = dzeriens;
 		this.piedeva = piedeva;
