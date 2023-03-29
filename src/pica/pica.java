@@ -138,14 +138,14 @@ public class pica {
             writer.write(pazinojums +"\n____________\n");
             writer.close();
             JOptionPane.showMessageDialog(null, "Ir saglabats.");
-        //   metodes();
+           metodes();
     
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Kļūda");
             e.printStackTrace();
-        //    metodes();           
+            metodes();           
         }	          
-        //metodes();      
+        metodes();      
     }
  	
 		
@@ -155,8 +155,22 @@ public class pica {
    }
 	 
    private static void aizvert() {
-	
-}
+	int rez = JOptionPane.showConfirmDialog(null, "Beigt darbu?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
+    if (rez == JOptionPane.YES_OPTION) {
+    	try {
+    		FileWriter writer = new FileWriter("inf.txt");
+            writer.write("");
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Viss izdzēsts");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Kļūda");
+        }
+       System.exit(0);
+   } else {
+   	metodes();
+    	}
+    }
+
    public static String getVards() {
        return vards + " " ;
    }
