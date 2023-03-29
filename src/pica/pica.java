@@ -1,5 +1,4 @@
 package pica;
-
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -15,6 +13,8 @@ import javax.swing.JTextArea;
 public class pica {
 	 static String filePath = "inf.txt";
 	static int izveletaisIndekss;
+	 static boolean EXIT=false;
+
 	static ArrayList<Sutijums> klienti = new ArrayList<>();
 	static String vards, adrese, num;
 	static String veids="";
@@ -32,10 +32,10 @@ public class pica {
 
 	}
 	public static void metodes() {
+		do {
 		String[] metodes = {"Reģistrēt jauno", "Apskatīt", "Aizvert programmu"};
 		int izvele = JOptionPane.showOptionDialog(null, "Izvēlies darbību", "Pizza_YUMMY", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, metodes, metodes[0]);
-		izveletaisIndekss = Arrays.asList(klienti).indexOf(izvele);
 		
 		switch(izvele) {
 		case 0: 
@@ -51,6 +51,8 @@ public class pica {
 			metodes();
 			break;	
 		}
+   	 }while(EXIT!=true);
+
 	}
 	private static void saglabat() {
 		piegade = JOptionPane.showConfirmDialog(null, "Būs piegāde?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
@@ -151,10 +153,7 @@ public class pica {
             metodes();           
         }	          
         metodes();      
-    }
- 	
-		
-	
+    }	
    private static void izvadit() {
 	   JTextArea text = new JTextArea();
  	  JScrollPane scroll = new JScrollPane(text);
@@ -195,11 +194,26 @@ public class pica {
             JOptionPane.showMessageDialog(null, "Kļūda");
         }
        System.exit(0);
-   } else {
-   	metodes();
+ 
     	}
     }
 
+   public static void dzest() {
+	   String izv;
+	   if(klienti.size() == 0) {
+		   JOptionPane.showMessageDialog(null, "Nav neviena klienta!");	  
+	   }
+	   String[] klientuVardi = new String[klienti.size()];
+  	 for (int i = 0; i < klienti.size(); i++) {
+				klientuVardi[i] = klienti.get(i).vards;
+		       }
+  	izv = (String)JOptionPane.showInputDialog(null,"Kuru dzest?", "Pizza_YUMMY", 
+      		JOptionPane.QUESTION_MESSAGE, null, klientuVardi, klientuVardi[0]);
+       int indekss = Arrays.asList(klientuVardi).indexOf(izv);	
+       klienti.remove(indekss);
+   }
+   
+   
    public static String getVards() {
        return vards + " " ;
    }
