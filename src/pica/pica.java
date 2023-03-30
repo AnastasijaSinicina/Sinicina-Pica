@@ -1,6 +1,7 @@
 package pica;
 import java.awt.Dimension;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,16 +9,19 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
+import javax.swing.filechooser.FileSystemView;
 public class pica {
+	static File darbvirsma = FileSystemView.getFileSystemView().getHomeDirectory();
+	static String atrasanasVieta = darbvirsma.getAbsolutePath();	
+	
 	static String filePath = "inf.txt";
 	static int izveletaisIndekss;
 	static boolean EXIT=false;
 	static DecimalFormat df = new DecimalFormat(".##");
-
 	static ArrayList<Sutijums> klienti = new ArrayList<>();
 	static String vards, adrese, num;
 	static String veids="";
@@ -28,20 +32,16 @@ public class pica {
 	static String pazinojums;
 	static double cena=0;
 	static int piegade, lidz;
-	static double picCena, dzerCena, mercCena, piedCena, piegCena;
-
-	 
-	
-	public static void main(String[] args) {
+	static double picCena, dzerCena, mercCena, piedCena, piegCena;	
+	public static void main(String[] args) {		  
 		metodes();
-
 	}
 	public static void metodes() {
+	ImageIcon kart = new ImageIcon(atrasanasVieta+"\\R.png");
 		do {
-		String[] metodes = {"Reģistrēt jauno", "Apskatīt", "Aizvert programmu"};
+		String[] metodes = {"Reģistrēt jauno", "Apskatīt", "Dzest", "Aizvert programmu"};
 		int izvele = JOptionPane.showOptionDialog(null, "Izvēlies darbību", "Pizza_YUMMY", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, metodes, metodes[0]);
-		
+				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, kart, metodes, metodes[0]);		
 		switch(izvele) {
 		case 0: 
 			saglabat(); 
@@ -49,17 +49,26 @@ public class pica {
 		case 1: 
 			izvadit(); 
 		break;
-		case 2: 
+		case 2:
+			dzest();
+		break;
+		case 3: 
 			aizvert(); 
 		break;
 		default:
 			metodes();
 			break;	
 		}
-   	 }while(EXIT!=true);
-
+   	 
+		}while(EXIT!=true);
 	}
 	private static void saglabat() {
+		  klienti.clear();
+	     if (klienti.size() >= 100) {
+	            JOptionPane.showMessageDialog(null, "Pārāk daudz sūtījumu.");
+	            metodes();
+	            return;
+	        }	
 		piegade = JOptionPane.showConfirmDialog(null, "Būs piegāde?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
 
 		String[] veidi= {"Studentu", "Margarita","Havaju", "Kalifornijas"};
@@ -68,9 +77,8 @@ public class pica {
 				"Ābolu sula", "Tomātu sula", "Vīnogu sula",
 				"Melnā kafija", "Latte"};
 		String[] piedevas = {"Frī kartupeļi", "Sīpolu gredzeni", "Ķiploku maizītes"};
-		String[] merces = {"Ketčups", "Majonēze", "BBQ", "Gurķu"};
-		
-		String[] pasut = new String[20];
+		String[] merces = {"Ketčups", "Majonēze", "BBQ", "Gurķu"};		
+		String[] pasut = new String[200];
 		cena = 0;
 		picCena = 0;
 		dzerCena = 0;
@@ -78,8 +86,6 @@ public class pica {
 		piedCena = 0;
 		piegCena = 0;	
 		int sutSk = 0;	
-		klienti.clear();
-		
 		int picSk = Integer.parseInt(JOptionPane.showInputDialog
 				(null,"Cik picas?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
 		while(picSk!=0) {
@@ -99,8 +105,7 @@ public class pica {
 				sutSk++;
 				picSk--;
 			}
-		}
-		
+		}	
 		int dzSk = Integer.parseInt(JOptionPane.showInputDialog
 				(null,"Cik dzērienu?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
 		while(dzSk!=0) {
@@ -161,14 +166,17 @@ public class pica {
 		}else
 		if(piegade == JOptionPane.NO_OPTION) {
 			lidz = JOptionPane.showConfirmDialog(null, "Līdzņemšana?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
+			
 
 			if(lidz == JOptionPane.YES_OPTION) {
 			vards = JOptionPane.showInputDialog(null, "Vards:");
 			}else if(lidz == JOptionPane.NO_OPTION) {
-				vards = JOptionPane.showInputDialog(null, "Galds:");
+				vards = JOptionPane.showInputDialog(null, "Galds:");		
+				adrese = " ";
+				num = " ";
 			}
-		}
-		
+		}	
+		ImageIcon kart2 = new ImageIcon(atrasanasVieta+"\\R (1).png");
 		cena = picCena+dzerCena+mercCena+piedCena+piegCena;
 		for(int i=0; i<klienti.size(); i++) {
 	    cena = klienti.get(i).cena;
@@ -176,7 +184,7 @@ public class pica {
 		}
 		Sutijums SUT = new Sutijums(vards,adrese, num, veids, izm, dzeriens, piedeva, merce, cena, piegade, lidz);
         klienti.add(SUT);
-		pazinojums = "\nKlients / galds: "+getVards()+"\nAdrese: "+getAdrese()+"\nNumurs:" +getNumurs();
+		pazinojums = "\nKlients / galds: "+getVards()+"\nAdrese: "+getAdrese()+"\nNumurs:" +getNumurs()+"\n";
 		for(int i=0; i<sutSk; i++) {
 			pazinojums += (i+1)+". "+pasut[i]+"\n";
 		}
@@ -186,72 +194,65 @@ public class pica {
             FileWriter writer = new FileWriter(filePath, true);
             writer.write(pazinojums +df.format(SUT.cena)+"\n____________\n");
             writer.close();
-            JOptionPane.showMessageDialog(null, "Ir saglabats.");
-            klienti.clear();   
+            JOptionPane.showMessageDialog(null,"Saglabats!", "Pizza_Yummy", JOptionPane.INFORMATION_MESSAGE, kart2);
+           
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Kļūda");
-            e.printStackTrace();
-        }	          
+            e.printStackTrace();         
+        }	            
     }	
-   public static void izvadit() {
-	   JTextArea text = new JTextArea();
- 	  JScrollPane scroll = new JScrollPane(text);
- 	  scroll.setPreferredSize(new Dimension(500,400));
-
-     String data = "  ";
-     if(klienti.size()<1) {
-     	JOptionPane.showMessageDialog(null, "Nav neviena pasūtījuma","Kļūda", JOptionPane.WARNING_MESSAGE);
-     	metodes();
-     }else if(klienti.size()>0) {
-     try {
-         BufferedReader reader = new BufferedReader(new FileReader(filePath));
-         String line = reader.readLine();
-         while (line != null) {
-             data += line + "\n";
-             line = reader.readLine();
-         }
-         text.append(data);
-         JOptionPane.showMessageDialog(null, scroll);
-         reader.close();
-     } catch (IOException e) {
-         JOptionPane.showMessageDialog(null, "Kļūda: " + e.getMessage());
-     }
-     }
-             }
-   
-	 
+	  public static void izvadit() {	 
+	    	JTextArea text = new JTextArea();
+      	  JScrollPane scroll = new JScrollPane(text);
+      	  scroll.setPreferredSize(new Dimension(500,400));
+	        String data = "  ";	      
+	        try {
+	            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+	            String line = reader.readLine();
+	            while (line != null) {
+	                data += line + "\n";
+	                line = reader.readLine();
+	            }
+	            text.append(data);
+	            JOptionPane.showMessageDialog(null, scroll);
+	            reader.close();
+	        } catch (IOException e) {
+	            JOptionPane.showMessageDialog(null, "Kļūda: " + e.getMessage());
+	        }
+	        metodes();	      
+	    }
+	  private static void dzest() {
+	    	String izv;
+	        if (klienti.size() == 0) {
+	            JOptionPane.showMessageDialog(null, "Nav neviena klienta.");	     
+	            metodes();
+	        }
+	        	String[] klientuVardi = new String[klienti.size()];
+	        	 for (int i = 0; i < klienti.size(); i++) {
+						klientuVardi[i] = klienti.get(i).vards;
+				       }
+	        	izv = (String)JOptionPane.showInputDialog(null,"Kuru dzest?", "Pizza_YUMMY", 
+		        		JOptionPane.QUESTION_MESSAGE, null, klientuVardi, klientuVardi[0]);
+		         int indekss = Arrays.asList(klientuVardi).indexOf(izv);
+		       
+		         klienti.remove(indekss);
+	    }	        	 
    private static void aizvert() {
+		ImageIcon kart3 = new ImageIcon(atrasanasVieta+"\\R (2).png");
 	int rez = JOptionPane.showConfirmDialog(null, "Beigt darbu?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
     if (rez == JOptionPane.YES_OPTION) {
     	try {
     		FileWriter writer = new FileWriter("inf.txt");
             writer.write("");
             writer.close();
-            JOptionPane.showMessageDialog(null, "Viss izdzēsts");
+            JOptionPane.showMessageDialog(null, kart3);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Kļūda");
         }
-       System.exit(0);
- 
+       System.exit(0); 
     	}
-    }
-
-   public static void dzest() {
-	   String izv;
-	   if(klienti.size() == 0) {
-		   JOptionPane.showMessageDialog(null, "Nav neviena klienta!");	  
-	   }
-	   String[] klientuVardi = new String[klienti.size()];
-  	 for (int i = 0; i < klienti.size(); i++) {
-				klientuVardi[i] = klienti.get(i).vards;
-		       }
-  	izv = (String)JOptionPane.showInputDialog(null,"Kuru dzest?", "Pizza_YUMMY", 
-      		JOptionPane.QUESTION_MESSAGE, null, klientuVardi, klientuVardi[0]);
-       int indekss = Arrays.asList(klientuVardi).indexOf(izv);	
-       klienti.remove(indekss);
-   }
-   
-   
+    metodes();
+    }     
    public static String getVards() {
        return vards + " " ;
    }
@@ -275,6 +276,10 @@ public class pica {
 	}
 	public static String getPied() {
 		return piedeva;
-	}	   
+	}	 
+	 @Override
+     public String toString() {
+     	return pazinojums;
+    }
 
 }
