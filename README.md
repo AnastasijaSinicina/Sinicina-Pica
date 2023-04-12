@@ -8,5 +8,6 @@ Programma ļauj izvēlēties picu, to izmēru, dzērienus, mērces un piedevas. 
 ### *Veicamo darbu saraksts*
 - [x] Izdzēst nevajadzīgas metodes
 - [x] Main daļā ielikt to, kas bija citā metodē
+- [x] Pievienot pārbaudi lai telefona numurā būt 12 simboli (+371 un 8-ciparu numurs) 
 
 
