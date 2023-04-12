@@ -33,11 +33,9 @@ public class pica {
 	static double cena=0;
 	static int piegade, lidz;
 	static double picCena, dzerCena, mercCena, piedCena, piegCena;	
+	
 	public static void main(String[] args) {		  
-		metodes();
-	}
-	public static void metodes() {
-	ImageIcon kart = new ImageIcon(atrasanasVieta+"\\R.png");
+		ImageIcon kart = new ImageIcon(atrasanasVieta+"\\R.png");
 		do {
 		String[] metodes = {"Reģistrēt jauno", "Apskatīt", "Dzest", "Aizvert programmu"};
 		int izvele = JOptionPane.showOptionDialog(null, "Izvēlies darbību", "Pizza_YUMMY", 
@@ -55,18 +53,13 @@ public class pica {
 		case 3: 
 			aizvert(); 
 		break;
-		default:
-			metodes();
-			break;	
-		}
-   	 
+		  }  	 
 		}while(EXIT!=true);
 	}
 	private static void saglabat() {
-		  klienti.clear();
+		 klienti.clear();
 	     if (klienti.size() >= 100) {
 	            JOptionPane.showMessageDialog(null, "Pārāk daudz sūtījumu.");
-	            metodes();
 	            return;
 	        }	
 		piegade = JOptionPane.showConfirmDialog(null, "Būs piegāde?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
@@ -79,12 +72,7 @@ public class pica {
 		String[] piedevas = {"Frī kartupeļi", "Sīpolu gredzeni", "Ķiploku maizītes"};
 		String[] merces = {"Ketčups", "Majonēze", "BBQ", "Gurķu"};		
 		String[] pasut = new String[200];
-		cena = 0;
-		picCena = 0;
-		dzerCena = 0;
-		mercCena = 0;
-		piedCena = 0;
-		piegCena = 0;	
+		cena = 0; picCena = 0; dzerCena = 0; mercCena = 0; piedCena = 0; piegCena = 0;	
 		int sutSk = 0;	
 		int picSk = Integer.parseInt(JOptionPane.showInputDialog
 				(null,"Cik picas?", "Pizza_YUMMY", JOptionPane.QUESTION_MESSAGE));
@@ -160,14 +148,12 @@ public class pica {
 			vards = JOptionPane.showInputDialog(null, "Vards:");
 		   }while(adrese.length()<3);
 			do {
-			num = JOptionPane.showInputDialog(null, "Tālr.:");
-			}while(num.length()!=8);
+			num = JOptionPane.showInputDialog("Tālr.:" ,"+371");
+			}while(num.length()!=12);
 
 		}else
 		if(piegade == JOptionPane.NO_OPTION) {
 			lidz = JOptionPane.showConfirmDialog(null, "Līdzņemšana?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
-			
-
 			if(lidz == JOptionPane.YES_OPTION) {
 			vards = JOptionPane.showInputDialog(null, "Vards:");
 			}else if(lidz == JOptionPane.NO_OPTION) {
@@ -184,12 +170,11 @@ public class pica {
 		}
 		Sutijums SUT = new Sutijums(vards,adrese, num, veids, izm, dzeriens, piedeva, merce, cena, piegade, lidz);
         klienti.add(SUT);
-		pazinojums = "\nKlients / galds: "+getVards()+"\nAdrese: "+getAdrese()+"\nNumurs:" +getNumurs()+"\n";
+		pazinojums = "\nKlients / galds: "+vards+"\nAdrese: "+adrese+"\nNumurs:" +num+"\n";
 		for(int i=0; i<sutSk; i++) {
 			pazinojums += (i+1)+". "+pasut[i]+"\n";
 		}
-		JOptionPane.showMessageDialog(null, pazinojums+" = "+df.format(SUT.cena)+"eiro"+"\n", "Pizza_YUMMY", JOptionPane.INFORMATION_MESSAGE);
-		
+		JOptionPane.showMessageDialog(null, pazinojums+" = "+df.format(SUT.cena)+"eiro"+"\n", "Pizza_YUMMY", JOptionPane.INFORMATION_MESSAGE);		
         try {
             FileWriter writer = new FileWriter(filePath, true);
             writer.write(pazinojums +df.format(SUT.cena)+"\n____________\n");
@@ -218,14 +203,12 @@ public class pica {
 	            reader.close();
 	        } catch (IOException e) {
 	            JOptionPane.showMessageDialog(null, "Kļūda: " + e.getMessage());
-	        }
-	        metodes();	      
+	        }	      
 	    }
 	  private static void dzest() {
 	    	String izv;
 	        if (klienti.size() == 0) {
-	            JOptionPane.showMessageDialog(null, "Nav neviena klienta.");	     
-	            metodes();
+	            JOptionPane.showMessageDialog(null, "Nav neviena klienta.");	    
 	        }
 	        	String[] klientuVardi = new String[klienti.size()];
 	        	 for (int i = 0; i < klienti.size(); i++) {
@@ -238,7 +221,7 @@ public class pica {
 		         klienti.remove(indekss);
 	    }	        	 
    private static void aizvert() {
-		ImageIcon kart3 = new ImageIcon(atrasanasVieta+"\\R (2).png");
+   ImageIcon kart3 = new ImageIcon(atrasanasVieta+"\\R (2).png");
 	int rez = JOptionPane.showConfirmDialog(null, "Beigt darbu?", "Pizza_YUMMY", JOptionPane.YES_NO_OPTION);
     if (rez == JOptionPane.YES_OPTION) {
     	try {
@@ -246,37 +229,12 @@ public class pica {
             writer.write("");
             writer.close();
             JOptionPane.showMessageDialog(null, kart3);
-        } catch (IOException e) {
+         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Kļūda");
         }
        System.exit(0); 
     	}
-    metodes();
     }     
-   public static String getVards() {
-       return vards + " " ;
-   }
-   public static String getAdrese() {
-		return adrese;
-	}
-	public static String getNumurs() {
-		return num;
-	}
-	public static String getVeids() {
-		return veids;
-	}
-	public static String getIzm() {
-		return izm;
-	}
-	public static String getDz() {
-		return dzeriens;
-	}
-	public static String getMerce() {
-		return merce;
-	}
-	public static String getPied() {
-		return piedeva;
-	}	 
 	 @Override
      public String toString() {
      	return pazinojums;
