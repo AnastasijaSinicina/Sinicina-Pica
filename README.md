@@ -1,0 +1,2 @@
+# Sinicina-Pica
+kludu labojums
